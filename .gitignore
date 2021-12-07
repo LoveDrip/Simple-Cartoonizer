@@ -3,3 +3,4 @@
 **/obj/*
 tmp/
 **/*.user
+src/Cartoonizer/gosheet.rc
