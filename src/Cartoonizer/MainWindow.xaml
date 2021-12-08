@@ -1,0 +1,559 @@
+﻿<Window
+    x:Class="Cartoonizer.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:local="clr-namespace:Cartoonizer"    
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+    Title="Cartoonizer"
+    SnapsToDevicePixels="True" UseLayoutRounding="True"    
+    WindowStartupLocation="CenterScreen"
+    Background="#6cb7f2"
+    MinHeight="730" MinWidth="1024" Width="1024" Height="720"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    Icon="icon.ico"
+    >
+    <Window.Resources>        
+    </Window.Resources>
+
+    <Grid HorizontalAlignment="center" >
+        
+            <Grid Height="730" Width="910" Margin="50,15">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <!-- <Button x:Name="btnImport" Content="Import" Width="70" Height="40" Background="White"/> -->
+                    <Button x:Name="btnExport" Content="Export" Width="70" Height="40" Margin="15,0"/>
+                    <Button x:Name="btnRedesign" Content="Redesign" Width="70" Height="40" Margin="15,0"/>
+            </StackPanel>
+            </Grid>
+            <Grid Background="#ffffffff" Width="910" Margin="50,65,50,20">            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="390"/>
+                <ColumnDefinition Width="550"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="0,20">
+                <Grid Width="350" Height="350"  ClipToBounds="True" Background="#ecf0f1">
+                    <Canvas x:Name="canvas" Width="1024" Height="1024">
+                        <Grid x:Name="gridMain" Width="1024" Height="1024">
+                            <Grid x:Name="gridBack">
+                                <Image x:Name="imgBack"/>
+                            </Grid>                            
+                            <Grid x:Name="gridNeck">
+                                <Image x:Name="imgNeck"  Source="/Images/Assets/neck.png"/>
+                                <Rectangle x:Name="rectNeck" Width="1024" Height="1024" Opacity="1">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:Name="brushNeck" Color="Transparent" />
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush x:Name="imgNeckMask" ImageSource="/Images/Assets/neck.png"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Grid.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform     x:Name="transNeck"  X="0" Y="0"/>
+                                        <ScaleTransform         x:Name="scaleNeck"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                        <RotateTransform        x:Name="rotateNeck" CenterX="512" CenterY="512" Angle="0" />
+                                    </TransformGroup>
+                                </Grid.RenderTransform>
+                            </Grid>
+                            <Grid x:Name="gridCloth" >
+                                <Image x:Name="imgCloth"  />
+                                <Rectangle x:Name="rectCloth" Width="1024" Height="1024" Opacity="1">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:Name="brushCloth" Color="Transparent" />
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush x:Name="imgClothMask"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Grid.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform     x:Name="transCloth"  X="0" Y="0"/>
+                                        <ScaleTransform         x:Name="scaleCloth"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                        <RotateTransform        x:Name="rotateCloth" CenterX="512" CenterY="512" Angle="0" />
+                                    </TransformGroup>
+                                </Grid.RenderTransform>
+                            </Grid>
+                            <Grid x:Name="gridFaceShape">
+                                <Image x:Name="imgFaceShape"  />
+                                <Grid x:Name="gridNose">
+                                    <Image x:Name="imgNose"  />
+                                    <Rectangle x:Name="rectNose" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushNose" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgNoseMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transNose"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleNose"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateNose" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridEarLeft">  
+                                    <Image x:Name="imgEarLeft"  />
+                                    <Rectangle x:Name="rectEarLeft" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushEarLeft" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgEarLeftMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transEarLeft"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleEarLeft"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateEarLeft" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridEarRight">
+                                    <Image x:Name="imgEarRight"  />
+                                    <Rectangle x:Name="rectEarRight" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushEarRight" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgEarRightMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transEarRight"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleEarRight"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateEarRight" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>                                
+
+                                <Rectangle x:Name="rectFaceShap" Width="1024" Height="1024"  Opacity="1">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:Name="brushFaceShape" Color="Transparent" />
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <ImageBrush x:Name="imgFaceShapeMask"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <Grid x:Name="gridEyeShapeRight">
+                                    <Image x:Name="imgEyeRight"  />
+                                    <Rectangle x:Name="rectEyeRight" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushEyeRight" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgEyeRightMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transEyeRight"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleEyeRight"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateEyeRight" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridEyeShapeLeft" >
+                                    <Image x:Name="imgEyeLeft"  />
+                                    <Rectangle x:Name="rectEyeLeft" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushEyeLeft" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgEyeLeftMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transEyeLeft"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleEyeLeft"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateEyeLeft" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                
+                                <Grid x:Name="gridCheer" >
+                                    <Image x:Name="imgCheer"  />
+                                    <Rectangle x:Name="rectCheer" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushCheer" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgCheerMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transCheer"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleCheer"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateCheer" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridMouth" >
+                                    <Image x:Name="imgMouth"  />
+                                    <Rectangle x:Name="rectMouth" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushMouth" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgMouthMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transMouth"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleMouth"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateMouth" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridBrowLeft">
+                                    <Image x:Name="imgBrowLeft"  />
+                                    <Rectangle x:Name="rectBrowLeft" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushBrowLeft" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgBrowLeftMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transBrowLeft"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleBrowLeft"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateBrowLeft" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridBrowRight" >
+                                    <Image x:Name="imgBrowRight"  />
+                                    <Rectangle x:Name="rectBrowRight" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushBrowRight" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgBrowRightMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transBrowRight"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleBrowRight"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateBrowRight" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridMustache" >
+                                    <Image x:Name="imgMustache"  />
+                                    <Rectangle x:Name="rectMustache" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushMustache" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgMustacheMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transMustache"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleMustache"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateMustache" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridBeard" >
+                                    <Image x:Name="imgBeard"  />
+                                    <Rectangle x:Name="rectBeard" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushBeard" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgBeardMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transBeard"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleBeard"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateBeard" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid x:Name="gridHairAccessory">
+                                    <Image x:Name="imgHairAccessory"  />
+                                    <Rectangle x:Name="rectHairAccessory" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushHairAccessory" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgHairAccessoryMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transHairAccessory"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleHairAccessory"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateHairAccessory" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>                                                               
+                                <Grid x:Name="gridGlass" >
+                                    <Image x:Name="imgGlass"  />
+                                    <Rectangle x:Name="rectGlass" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushGlass" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgGlassMask" />
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transGlass"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleGlass"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateGlass" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>                                
+                                <Grid x:Name="gridHair" >
+                                    <Image x:Name="imgHair"  />
+                                    <Rectangle x:Name="rectHair" Width="1024" Height="1024"  Opacity="1">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush x:Name="brushHair" Color="Transparent" />
+                                        </Rectangle.Fill>
+                                        <Rectangle.OpacityMask>
+                                            <ImageBrush x:Name="imgHairMask"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <TranslateTransform     x:Name="transHair"  X="0" Y="0"/>
+                                            <ScaleTransform         x:Name="scaleHair"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                            <RotateTransform        x:Name="rotateHair" CenterX="512" CenterY="512" Angle="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                </Grid>
+                                <Grid.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform     x:Name="transFace"  X="0" Y="0"/>
+                                        <ScaleTransform         x:Name="scaleFace"  CenterX="512" CenterY="512" ScaleX="1" ScaleY="1"/>
+                                        <RotateTransform        x:Name="rotateFace" CenterX="512" CenterY="512" Angle="0" />
+                                    </TransformGroup>
+                                </Grid.RenderTransform>
+                            </Grid>                          
+                        </Grid>
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform         x:Name="scale"  CenterX="512" CenterY="512" ScaleX="0.34" ScaleY="0.34"/>
+                                <TranslateTransform     x:Name="trans"  X="-337" Y="-337"/>
+                                <RotateTransform        x:Name="rotate" Angle="0" />
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                    </Canvas>
+                </Grid>
+
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Width="352" Margin="0,5">
+                    <Button x:Name="btnMoveUp" Width="44" Height="44">
+                        <TextBlock Text="&#xF062;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="btnMoveDown" Width="44" Height="44">
+                        <TextBlock Text="&#xF063;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="btnMoveLeft" Width="44" Height="44">
+                        <TextBlock Text="&#xF060;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="btnMoveRight" Width="44" Height="44">
+                        <TextBlock Text="&#xF061;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="btnZoomIn" Width="44" Height="44">
+                        <TextBlock Text="&#xF010;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="btnZoomOut" Width="44" Height="44">
+                        <TextBlock Text="&#xF00E;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="btnRotateLeft" Width="44" Height="44">
+                        <TextBlock Text="&#xF0E2;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="btnRotateRight" Width="44" Height="44">
+                        <TextBlock Text="&#xF01E;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                    </Button>
+                </StackPanel>
+                <dx:GroupFrame x:Name="colorPanel" Width="350" Margin="0,0,0,0" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center">
+                    <dxlc:FlowLayoutControl  ItemsSource="{Binding ColorItems}" Orientation="Horizontal" LayerSpace="0" ItemSpace="1" Padding="0" Height="135" HorizontalAlignment="Center">
+                        <dxlc:FlowLayoutControl.Resources>
+                            <local:ColorDataTemplateSelector x:Key="ColorDataTemplateSelector" />
+                            <DataTemplate x:Key="ColorDataTemplate">
+                                <Border BorderThickness="1" CornerRadius="3" Style="{StaticResource ColorItemBorderStyle}">
+                                    <Rectangle Width="43.4" Height="43.4" Fill="{Binding color, Converter={StaticResource ColorToBrushConverter}}" MouseLeftButtonUp="onChangeColor" />
+                                </Border>
+                            </DataTemplate>
+                            <DataTemplate x:Key="MoreDataTemplate">
+                                <Border BorderThickness="1.5" CornerRadius="3" Width="43.3" Height="43.3">
+                                    <Grid MouseLeftButtonUp="onMoreColor">
+                                        <Ellipse Fill="#f3d4cf" Margin="3"/>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </dxlc:FlowLayoutControl.Resources>
+                        <dxlc:FlowLayoutControl.ItemTemplateSelector>
+                            <local:ColorDataTemplateSelector />
+                        </dxlc:FlowLayoutControl.ItemTemplateSelector>
+                    </dxlc:FlowLayoutControl>
+                    <!-- <dxe:ColorEdit x:Name="colorEdit" Color="#ff396ba7"  ShowDefaultColorButton="false" ShowMoreColorsButton="True" ChipSize="Large"/> -->
+                </dx:GroupFrame>
+            </StackPanel>
+            
+            <Grid Grid.Column="1" VerticalAlignment="Top" ClipToBounds="True" Margin="0,20,50,0" Height="565">
+                <StackPanel >                    
+                    <!-- Main Type Panel -->
+                    <StackPanel x:Name="MainPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40">
+                        <Grid Margin="0,0,0,3" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton Grid.Column="0" x:Name="btnFace" IsChecked="True" Checked="onChangeMainType" GroupName="mainType" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="face" >
+                                <TextBlock Text="face"/></RadioButton>
+                            <RadioButton Grid.Column ="1" x:Name="btnEye"  IsChecked="False" Checked="onChangeMainType" GroupName="mainType" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="eye" >
+                                <TextBlock Text="eyes"/></RadioButton>
+                            <RadioButton Grid.Column ="2" x:Name="btnHair" IsChecked="False" Checked="onChangeMainType" GroupName="mainType" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="hair">
+                                <TextBlock Text="hair"/></RadioButton>
+                            <RadioButton Grid.Column ="3" x:Name="btnCloth"  IsChecked="False" Checked="onChangeMainType" GroupName="mainType" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="cloth">
+                                <TextBlock Text="clothes"/></RadioButton>
+                            <RadioButton Grid.Column ="4" x:Name="btnBack"  IsChecked="False" Checked="onChangeMainType" GroupName="mainType" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="backs">
+                                <TextBlock Text="backs"/></RadioButton>
+                        </Grid>                        
+                    </StackPanel>
+                    <StackPanel x:Name="subHair" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40" >                        
+                        <RadioButton x:Name="btnHair_Hair" IsChecked="True" Checked="onChangeSubType" GroupName="hair" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Hair">
+                            <TextBlock Text="on head" HorizontalAlignment="Center"/>
+                        </RadioButton>
+                        <RadioButton x:Name="btnHair_Accessory" IsChecked="False" Checked="onChangeSubType" GroupName="hair" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Accessory" >
+                            <TextBlock Text="Hair accessories"/>
+                        </RadioButton>                        
+                        <RadioButton x:Name="btnHair_Mustache" IsChecked="False" Checked="onChangeSubType" GroupName="hair" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Mustache" >
+                            <TextBlock Text="mustache" />
+                        </RadioButton>
+                        <RadioButton x:Name="btnHair_Beard" IsChecked="False" Checked="onChangeSubType" GroupName="hair" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Beard" >
+                            <TextBlock Text="beard"/>
+                        </RadioButton>                        
+                    </StackPanel>
+                    <StackPanel x:Name="subEye" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40">
+                        <RadioButton x:Name="btnEye_Shape" IsChecked="True" Checked="onChangeSubType" GroupName="eye" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Shape" Width="166">
+                            <TextBlock Text="eye shape"/>
+                        </RadioButton>
+                        <!--<RadioButton x:Name="btnEye_Iris" IsChecked="False" Checked="onChangeSubType" GroupName="eye" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Iris" Width="100" >
+                            <TextBlock Text="iris"/>
+                        </RadioButton>
+                        
+                        <RadioButton x:Name="btnEye_Makeup" IsChecked="False" Checked="onChangeSubType" GroupName="eye" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Makeup" Width="100" >
+                            <TextBlock Text="eye makeup"/>
+                        </RadioButton>-->
+                        <RadioButton x:Name="btnEye_Brow" IsChecked="False" Checked="onChangeSubType" GroupName="eye" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Brow" Width="166" >
+                            <TextBlock Text="eyebrows"/>
+                        </RadioButton>
+                        <RadioButton x:Name="btnEye_Glass" IsChecked="False" Checked="onChangeSubType" GroupName="eye" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Glass" Width="166" >
+                            <TextBlock Text="glasses"/>
+                        </RadioButton>
+                    </StackPanel>
+                    <StackPanel x:Name="subFace" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40">
+                        <RadioButton x:Name="btnFace_Shape" IsChecked="True" Checked="onChangeSubType" GroupName="face" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Shape"  Width="100">
+                            <TextBlock Text="shape"/>
+                        </RadioButton>
+                        <RadioButton x:Name="btnFace_Mouth" IsChecked="False" Checked="onChangeSubType" GroupName="face" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Mouth"  Width="100">
+                            <TextBlock Text="mouth"/>
+                        </RadioButton>
+                        <RadioButton x:Name="btnFace_Nose" IsChecked="False" Checked="onChangeSubType" GroupName="face" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Nose"  Width="100">
+                            <TextBlock Text="nose"/>
+                        </RadioButton>
+                        <RadioButton x:Name="btnFace_Ear" IsChecked="False" Checked="onChangeSubType" GroupName="face" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Ears"  Width="100">
+                            <TextBlock Text="ears"/>
+                        </RadioButton>
+                        <RadioButton x:Name="btnFace_Cheer" IsChecked="False" Checked="onChangeSubType" GroupName="face" Style="{StaticResource GlassRadioButtonStyle}" ToolTipService.ToolTip="Blusher"  Width="100">
+                            <TextBlock Text="blusher"/>
+                        </RadioButton>
+                    </StackPanel>
+                    <!-- Control Panel -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10">
+                        <dxlc:FlowLayoutControl ItemsSource="{Binding Images}" Orientation="Horizontal" Width="500" Height="300" LayerSpace="0" ItemSpace="1" Padding="0">
+                            <dxlc:FlowLayoutControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" CornerRadius="3" Padding="5" Style="{StaticResource ImageItemStyle}" MouseLeftButtonUp="onChangeImage">
+                                        <Image Source="{Binding Path=thumbnail}" Width="85"  Height="85" />
+                                    </Border>
+                                </DataTemplate>
+                            </dxlc:FlowLayoutControl.ItemTemplate>
+                        </dxlc:FlowLayoutControl>
+                    </StackPanel>                   
+                        
+                        <Grid x:Name="panelControls">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Resources>
+                            </Grid.Resources>
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,3,0">
+
+                                <Button x:Name="btnSubMoveUp" Width="35" Height="35">
+                                    <TextBlock Text="&#xf062;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                                </Button>
+                                <Button x:Name="btnSubMoveDown" Width="35" Height="35">
+                                    <TextBlock Text="&#xf063;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                                </Button>
+                                <Button x:Name="btnSubMoveLeft" Width="35" Height="35">
+                                    <TextBlock Text="&#xf060;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                                </Button>
+                                <Button x:Name="btnSubMoveRight" Width="35" Height="35">
+                                    <TextBlock Text="&#xf061;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                                </Button>
+                                <Button x:Name="btnSubEnlarge" Width="35" Height="35" Padding="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xf053;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                                        <TextBlock Text="&#xf054;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center" Margin="2,0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnSubNarrow" Width="35" Height="35" Padding="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xf054;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                                        <TextBlock Text="&#xf053;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center" Margin="2,0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="btnSubZoomIn" Width="35" Height="35">
+                                    <TextBlock Text="&#xf010;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                                </Button>
+                                <Button x:Name="btnSubZoomOut" Width="35" Height="35">
+                                    <TextBlock Text="&#xf00e;" FontFamily="{StaticResource FontAwesome}" Foreground="Black" FontSize="11" VerticalAlignment="Center"/>
+                                </Button>
+                            </StackPanel>
+                            <Grid  Grid.Column="1" Margin="103,0,0,0"></Grid>
+                            <Slider x:Name="slideAlpha"  Grid.Column="2"  Minimum="0" Maximum="1" SmallChange="0.05" LargeChange="0.1" Value="1" ValueChanged="onChangeAlphaValue"/>
+                        </Grid>
+                    
+                    
+                    
+                </StackPanel>
+                <StackPanel Margin="0,0,0,15"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    <Button x:Name="btnRandom"  Click="onBtnRandom" Content="Random" Height="40" Width="100"/>
+                    <Button x:Name="btnReset" Click="onBtnReset" Content="Reset" Height="40" Width="100"/>
+                    <Button x:Name="btnPrev" Click="onBtnPrev" Content="Prev" Height="40" Width="100"/>
+                    <Button x:Name="btnNext" Click="onBtnNext" Content="Next" Height="40" Width="100"/>
+                    <Button x:Name="btnDownload" Click="saveButton_Click" Content="Download" Height="40" Width="100"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
