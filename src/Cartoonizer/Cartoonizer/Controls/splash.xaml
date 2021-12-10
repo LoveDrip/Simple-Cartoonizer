@@ -1,0 +1,24 @@
+﻿<Window x:Class="Cartoonizer.splash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Select Gender" Height="300" Width="300" 
+        WindowStartupLocation="CenterScreen"
+        >
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Select a gender..."/>
+            <StackPanel Orientation="Horizontal" Margin="0, 30">
+                <Border BorderThickness="1" CornerRadius="3" Style="{StaticResource ColorItemBorderStyle}" Padding="3">
+                    <Image x:Name="btnMale" Source="/Images/Icons/Male.png" Width="80" Height="80" MouseLeftButtonUp="onBtnGender"></Image>
+                </Border>
+                <Border BorderThickness="1" CornerRadius="3" Margin="20,0,0,0" Style="{StaticResource ColorItemBorderStyle}" Padding="3">
+                    <Image x:Name="btnFemale" Source="/Images/Icons/Female.png" Width="80" Height="80" MouseLeftButtonUp="onBtnGender"></Image>
+                </Border>
+
+                
+            </StackPanel>
+            
+        </StackPanel>
+        
+    </Grid>
+</Window>
